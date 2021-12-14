@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  backend:
+    image: library/alpine:latest
+    depends_on:
+      - movie.postgres
+
+  movie.postgres:
+    image: postgres:12.4
+    hostname: movie.postgres
+    container_name: movie.postgres
+    ports:
+      - "31000:5432"
+
+    environment:
+      POSTGRES_PASSWORD: movie
+      POSTGRES_USER: movie
+      POSTGRES_DB: movie
