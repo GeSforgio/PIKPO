@@ -24,16 +24,27 @@ def main():
 def search():
     conn = create_engine("postgresql+psycopg2://movie:movie@localhost:31000/movie")
     input_value = str(request.form.get("comment"))
-    sql = text(
-        open("views/sql_search", encoding="utf8").read()
-    )
-    result = conn.execute(sql, string=input_value)
-    list = []
-    for rowproxy in result:
-        movie_dict = dict(rowproxy)
-        list.append(movie_dict)
+    if input_value !='':
+        sql = text(
+            open("views/sql_search", encoding="utf8").read()
+        )
+        result = conn.execute(sql, string=input_value)
+        list = []
+        for rowproxy in result:
+            movie_dict = dict(rowproxy)
+            list.append(movie_dict)
 
-    return render_template('main.html', table=list)
+        return render_template('main.html', table=list)
+    else:
+        sql = text(
+            open("views/sql_all", encoding="utf8").read()
+        )
+        result = conn.execute(sql)
+        list = []
+        for rowproxy in result:
+            movie_dict = dict(rowproxy)
+            list.append(movie_dict)
+        return render_template('main.html', table=list)
 
 
 if __name__ == '__main__':
