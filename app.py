@@ -5,33 +5,7 @@ from sqlalchemy import create_engine, text
 
 app = Flask(__name__)
 
-def get_anime():
-    return [
-        {
-            'id':1,
-            'title': 'Naruto',
-            'release_date' : '2000',
-            'director':'kok'
-        },
-        {
-            'id': 4,
-            'title': 'Мистер членосос',
-            'release_date': '3228',
-            'director': 'kek'
-        },
-        {
-            'id': 2,
-            'title': 'Bleach',
-            'release_date': '2004',
-            'director': 'kik'
-        },
-        {
-            'id': 3,
-            'title': 'One piece',
-            'release_date': '1999',
-            'director': 'kak'
-        }
-    ]
+
 
 @app.route('/')
 def ind():
