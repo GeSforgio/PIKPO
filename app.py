@@ -23,7 +23,7 @@ def main():
 @app.route('/search', methods=['POST'])
 def search():
     conn = create_engine("postgresql+psycopg2://movie:movie@localhost:31000/movie")
-    input_value = str(request.form.get("comment"))
+    input_value = str(request.form.get("search"))
     if input_value !='':
         sql = text(
             open("views/sql_search", encoding="utf8").read()

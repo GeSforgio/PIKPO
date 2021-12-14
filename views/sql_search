@@ -1,1 +1,9 @@
-select rating, name,release_date,director from movie_list where to_tsvector(rating)||to_tsvector(name)||to_tsvector(release_date)||to_tsvector(director) @@ plainto_tsquery(:string)
+select rating,
+       name,
+       release_date,
+       director
+from movie_list
+where to_tsvector(rating)||
+      to_tsvector(name)||
+      to_tsvector(release_date)||
+      to_tsvector(director) @@ plainto_tsquery(:string)
