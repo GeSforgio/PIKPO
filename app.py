@@ -50,11 +50,11 @@ def ind():
 @app.route('/search',methods=['POST'])
 def search():
     conn = create_engine("postgresql+psycopg2://movie:movie@localhost:31000/movie")
-    kok=int(request.form.get("comment"))
+    kok=str(request.form.get("comment"))
     sql = text(
         open("views/sql_search", encoding="utf8").read()
     )
-    result = conn.execute(sql,id =kok)
+    result = conn.execute(sql,string =kok)
     list = []
     for rowproxy in result:
         movie_dict = dict(rowproxy)
