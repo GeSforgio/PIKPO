@@ -1,0 +1,1 @@
+insert into contact (user_name,user_mail,date) values (:name,:mail,:date)

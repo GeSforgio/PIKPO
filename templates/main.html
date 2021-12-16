@@ -2,20 +2,27 @@
 {% block content %}
 
 
-    <form  action="{{ url_for('search') }}" method="POST">
-    <input id = "number_one" type="text" name="search">
-    <input type="submit" value = "search">
+    <form action="{{ url_for('search') }}" method="POST">
+        <div class="input_search_control">
+            <input id="number_one" type="text" name="search">
+            <input id="button_search" type="submit" value="search">
+        </div>
     </form>
-    <table border ="1">
-    <tr>
-        <th>Рейтинг</th>
-        <th>Название</th>
-        <th>Дата релиза</th>
-        <th>Режиссёр</th>
-    </tr>
-{% for table in table %}
-    <tr><td>{{ table.rating }}</td><td>{{ table.name }}</td><td>{{ table.release_date }}</td><td>{{ table.director }}</td></tr>
-    {% endfor %}
+    <table class="films_table">
+        <tr>
+            <th>Рейтинг</th>
+            <th>Название</th>
+            <th>Дата релиза</th>
+            <th>Режиссёр</th>
+        </tr>
+        {% for table in table %}
+            <tr>
+                <td class="little_column">{{ table.rating }}</td>
+                <td>{{ table.name }}</td>
+                <td>{{ table.release_date }}</td>
+                <td>{{ table.director }}</td>
+            </tr>
+        {% endfor %}
     </table>
 
 {% endblock %}

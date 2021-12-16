@@ -1,3 +1,4 @@
+import datetime
 from collections import defaultdict
 
 from flask import Flask, render_template, request
@@ -6,7 +7,7 @@ from sqlalchemy import create_engine, text
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/main')
 def main():
     conn = create_engine("postgresql+psycopg2://movie:movie@localhost:31000/movie")
     sql = text(
@@ -19,6 +20,24 @@ def main():
         list.append(movie_dict)
     return render_template('main.html', table=list)
 
+@app.route('/review')
+def review():
+    return render_template('review.html', table=list)
+
+@app.route('/get_contact', methods=['POST'])
+def get_contact():
+    conn = create_engine("postgresql+psycopg2://movie:movie@localhost:31000/movie")
+    input_value_name = str(request.form.get("contact_name"))
+    input_value_mail = str(request.form.get("contact_mail"))
+    if input_value_name !='' and input_value_mail!='':
+        sql = text(
+            open("views/sql_insert_contact", encoding="utf8").read()
+        )
+        date = datetime.datetime.now()
+        conn.execute(sql, name=input_value_name,mail=input_value_mail,date=date)
+        return render_template('review.html')
+    else:
+        return render_template('review.html')
 
 @app.route('/search', methods=['POST'])
 def search():
@@ -46,6 +65,10 @@ def search():
             list.append(movie_dict)
         return render_template('main.html', table=list)
 
+@app.route('/')
+def hello():
+    return render_template('hello.html', table=list)
+
 
 if __name__ == '__main__':
-    app.run(host="localhost", port=6666)
+    app.run(host="localhost", port=5000)

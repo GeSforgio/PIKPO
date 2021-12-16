@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="hello">
+        <p>Тут вы можете оставить контакты чтобы мы с вами связались</p>
+    </div>
+    <form action="{{ url_for('get_contact') }}" method="POST">
+        <div class="input_contact">
+            <input id="input_name" type="text" name="contact_name" placeholder="Введите своё имя">
+            <br>
+            <br>
+            <input id="input_mail" type="text" name="contact_mail" placeholder="Введите свою почту">
+            <br>
+            <br>
+            <input id="button_contact" type="submit" value="Отправить">
+        </div>
+    </form>
+{% endblock %}
