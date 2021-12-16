@@ -8,14 +8,19 @@
             <input id="button_search" type="submit" value="search">
         </div>
     </form>
+    <div class="scroll_table">
     <table class="films_table">
+        <thead>
         <tr>
             <th>Рейтинг</th>
             <th>Название</th>
             <th>Дата релиза</th>
             <th>Режиссёр</th>
         </tr>
+        </thead>
+    <tbody>
         {% for table in table %}
+
             <tr>
                 <td class="little_column">{{ table.rating }}</td>
                 <td>{{ table.name }}</td>
@@ -23,6 +28,8 @@
                 <td>{{ table.director }}</td>
             </tr>
         {% endfor %}
+    </tbody>
     </table>
+    </div>
 
 {% endblock %}
