@@ -1,22 +1,26 @@
 import datetime
-from collections import defaultdict
+import sqlite3
 
 from flask import Flask, render_template, request
-from sqlalchemy import create_engine, text
 
 app = Flask(__name__)
 
 
+
 @app.route('/main')
 def main():
-    conn = create_engine("postgresql+psycopg2://movie:movie@localhost:31000/movie")
-    sql = text(
-        open("views/sql_all", encoding="utf8").read()
-    )
-    result = conn.execute(sql)
+    connection = sqlite3.connect('sqlite_python.db')
+    cur = connection.cursor()
+
+    result = cur.execute('select * from movie')
     list = []
+
     for rowproxy in result:
-        movie_dict = dict(rowproxy)
+        movie_dict = {}
+        movie_dict['rating'] = rowproxy[0]
+        movie_dict['name'] = rowproxy[1]
+        movie_dict['release_date'] = rowproxy[2]
+        movie_dict['director'] = rowproxy[3]
         list.append(movie_dict)
     return render_template('main.html', table=list)
 
@@ -26,42 +30,43 @@ def review():
 
 @app.route('/get_contact', methods=['POST'])
 def get_contact():
-    conn = create_engine("postgresql+psycopg2://movie:movie@localhost:31000/movie")
+    connection = sqlite3.connect('sqlite_python.db')
+    cur = connection.cursor()
     input_value_name = str(request.form.get("contact_name"))
     input_value_mail = str(request.form.get("contact_mail"))
     if input_value_name !='' and input_value_mail!='':
-        sql = text(
-            open("views/sql_insert_contact", encoding="utf8").read()
-        )
         date = datetime.datetime.now()
-        conn.execute(sql, name=input_value_name,mail=input_value_mail,date=date)
+        cur.execute('insert into contact (user_name,user_mail,date) values (?,?,?)', (input_value_name,input_value_mail,date))
+        connection.commit()
         return render_template('review.html')
     else:
         return render_template('review.html')
 
 @app.route('/search', methods=['POST'])
 def search():
-    conn = create_engine("postgresql+psycopg2://movie:movie@localhost:31000/movie")
+    connection = sqlite3.connect('sqlite_python.db')
+    cur = connection.cursor()
     input_value = str(request.form.get("search"))
     if input_value !='':
-        sql = text(
-            open("views/sql_search", encoding="utf8").read()
-        )
-        result = conn.execute(sql, string=input_value)
+        result = cur.execute('select * from movie where movie match :value', {'value':input_value})
         list = []
         for rowproxy in result:
-            movie_dict = dict(rowproxy)
+            movie_dict = {}
+            movie_dict['rating'] = rowproxy[0]
+            movie_dict['name'] = rowproxy[1]
+            movie_dict['release_date'] = rowproxy[2]
+            movie_dict['director'] = rowproxy[3]
             list.append(movie_dict)
-
         return render_template('main.html', table=list)
     else:
-        sql = text(
-            open("views/sql_all", encoding="utf8").read()
-        )
-        result = conn.execute(sql)
+        result = cur.execute('select * from movie')
         list = []
         for rowproxy in result:
-            movie_dict = dict(rowproxy)
+            movie_dict = {}
+            movie_dict['rating'] = rowproxy[0]
+            movie_dict['name'] = rowproxy[1]
+            movie_dict['release_date'] = rowproxy[2]
+            movie_dict['director'] = rowproxy[3]
             list.append(movie_dict)
         return render_template('main.html', table=list)
 
@@ -71,4 +76,11 @@ def hello():
 
 
 if __name__ == '__main__':
-    app.run(host="localhost", port=5000)
+    app.run(host="localhost", port=6666)
+
+
+
+
+
+
+

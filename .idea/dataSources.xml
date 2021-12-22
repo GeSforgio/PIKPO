@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:31000/movie</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="sqlite_python" uuid="b64a6348-c0f0-435a-a3c2-cb739e2a5ce3">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\kiril\PycharmProjects\test\sqlite_python.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

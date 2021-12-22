@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <link rel="stylesheet" href= "{{ url_for('static',filename='page_style.css') }}" type="text/css"  />
     <meta charset="UTF-8">
-    {% if title %}
-        <title>salam -- {{ salam }}</title>
-    {% else %}
         <title>PIKPO</title>
-    {% endif %}
 </head>
 <body>
 {% block content %}{% endblock %}
