@@ -38,7 +38,7 @@ def get_contact():
         date = datetime.datetime.now()
         cur.execute('insert into contact (user_name,user_mail,date) values (?,?,?)', (input_value_name,input_value_mail,date))
         connection.commit()
-        return render_template('review.html')
+        return render_template('review_complete.html')
     else:
         return render_template('review.html')
 
@@ -57,7 +57,19 @@ def search():
             movie_dict['release_date'] = rowproxy[2]
             movie_dict['director'] = rowproxy[3]
             list.append(movie_dict)
-        return render_template('main.html', table=list)
+        if not list:
+            result = cur.execute('select * from movie')
+            list = []
+            for rowproxy in result:
+                movie_dict = {}
+                movie_dict['rating'] = rowproxy[0]
+                movie_dict['name'] = rowproxy[1]
+                movie_dict['release_date'] = rowproxy[2]
+                movie_dict['director'] = rowproxy[3]
+                list.append(movie_dict)
+            return render_template('main_nothing.html', table=list)
+        else:
+            return render_template('main.html', table=list)
     else:
         result = cur.execute('select * from movie')
         list = []
